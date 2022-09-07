@@ -1,0 +1,4 @@
+---
+# handlers file for deploy_my_openvpnas
+- name: Restart openvpn
+  service: name=openvpnas state=restarted

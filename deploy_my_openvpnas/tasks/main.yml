@@ -1,0 +1,45 @@
+---
+# tasks file for deploy_my_openvpnas
+- name: resolv
+  shell: echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+- name: Update and install tools
+  apt: name=ca-certificates state=latest
+- name: gnug
+  apt: name=gnupg state=latest
+- name: net-tools
+  apt: name=net-tools state=latest
+
+
+- name: wget
+  get_url: url=https://as-repository.openvpn.net/as-repo-public.gpg dest=/home/ubuntu
+
+- apt_key:
+   url: "https://as-repository.openvpn.net/as-repo-public.gpg"
+   state: present
+
+- name: echo
+  shell: echo "deb http://as-repository.openvpn.net/as/debian jammy main">/etc/apt/sources.list.d/openvpn-as-repo.list
+
+- name: update
+  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+- name: apt install openvpn
+  apt: name=openvpn-as state=latest
+  register: install_info
+
+- local_action: copy content={{ install_info }} dest=/root/Ansible_Role_OpenVPN/password
+
+- name: password
+  shell: grep -Eo "(\"\+.+\+\")" password | sed  "s/\"//g" | sed "s/,/\n/g" | sed '4,5d'
+  delegate_to: localhost
+  register: password
+
+- name: copy my logo
+  copy: src=logo.jpg dest={{ destin_file }} mode=0555
+  notify: Restart openvpn
+
+- name: change config
+  shell: echo "sa.company_name=Welcome to my VPN\nsa.logo_image_file=/usr/local/openvpn_as/etc/logo.jpg" >> /usr/local/openvpn_as/etc/as.conf
+
+- debug:
+    var: password.stdout_lines

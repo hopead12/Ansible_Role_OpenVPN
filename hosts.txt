@@ -1,0 +1,2 @@
+[Prod]
+Ubuntu ansible_host=3.67.133.87

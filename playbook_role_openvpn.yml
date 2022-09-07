@@ -1,0 +1,7 @@
+---
+- name: OpenVPN install on Ubuntu
+  hosts: Prod
+  become: yes
+
+  roles:
+   - deploy_my_openvpnas
