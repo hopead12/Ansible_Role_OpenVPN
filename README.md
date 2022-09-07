@@ -12,10 +12,11 @@ The only destin_file variable is /usr/local/openvpn_as/etc in defaults/main.yml
 
 Example Playbook
 ----------------
-
+```
 - name: OpenVPN install on Ubuntu
   hosts: Prod
   become: yes
 
   roles:
    - deploy_my_openvpnas
+```
