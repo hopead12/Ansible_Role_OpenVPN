@@ -27,12 +27,12 @@
   apt: name=openvpn-as state=latest
   register: install_info
 
-- local_action: copy content={{ install_info }} dest=.password_openvpn
+#- local_action: copy content={{ install_info }} dest=.password_openvpn
 
-- name: password
-  shell: grep -Eo "(\"\+.+\+\")" .password_openvpn | sed  "s/\"//g" | sed "s/,/\n/g" | sed '4,5d'
-  delegate_to: localhost
-  register: password
+#- name: password
+#  shell: grep -Eo "(\"\+.+\+\")" .password_openvpn | sed  "s/\"//g" | sed "s/,/\n/g" | sed '4,5d'
+#  delegate_to: localhost
+#  register: password
 
 - name: copy my logo
   copy: src=logo.jpg dest={{ destin_file }} mode=0555
@@ -41,5 +41,5 @@
 - name: change config
   shell: echo "sa.company_name=Welcome to my VPN\nsa.logo_image_file=/usr/local/openvpn_as/etc/logo.jpg" >> /usr/local/openvpn_as/etc/as.conf
 
-- debug:
-    var: password.stdout_lines
+#- debug:
+#    var: password.stdout_lines
