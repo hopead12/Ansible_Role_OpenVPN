@@ -27,10 +27,10 @@
   apt: name=openvpn-as state=latest
   register: install_info
 
-- local_action: copy content={{ install_info }} dest=/root/Ansible_Role_OpenVPN/password
+- local_action: copy content={{ install_info }} dest=./Ansible_Role_OpenVPN/password
 
 - name: password
-  shell: grep -Eo "(\"\+.+\+\")" password | sed  "s/\"//g" | sed "s/,/\n/g" | sed '4,5d'
+  shell: grep -Eo "(\"\+.+\+\")" ./Ansible_Role_OpenVPN/password | sed  "s/\"//g" | sed "s/,/\n/g" | sed '4,5d'
   delegate_to: localhost
   register: password
 
