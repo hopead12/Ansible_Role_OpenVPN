@@ -27,10 +27,10 @@
   apt: name=openvpn-as state=latest
   register: install_info
 
-- local_action: copy content={{ install_info }} dest=~/password_openvpn
+- local_action: copy content={{ install_info }} dest=/home/password_openvpn
 
 - name: password
-  shell: grep -Eo "(\"\+.+\+\")" ~/password_openvpn | sed  "s/\"//g" | sed "s/,/\n/g" | sed '4,5d'
+  shell: grep -Eo "(\"\+.+\+\")" /home/password_openvpn | sed  "s/\"//g" | sed "s/,/\n/g" | sed '4,5d'
   delegate_to: localhost
   register: password
 
